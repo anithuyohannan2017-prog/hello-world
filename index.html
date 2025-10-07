@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hello World — Single File</title>
+  <style>
+    /* Simple, modern styling */
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#111827;
+      --accent:#60a5fa;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,var(--bg) 0%, #071129 100%);
+      color:#e6eef8;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .card{
+      width:min(760px,96vw);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+    }
+    h1{margin:0 0 10px 0; font-size:28px; letter-spacing:-0.4px}
+    p.lead{margin:0 0 18px 0; color: #bcd6ffcc}
+    .display{
+      margin:18px 0;
+      padding:18px;
+      background:var(--glass);
+      border-radius:10px;
+      font-size:20px;
+      text-align:center;
+      user-select:text;
+    }
+    .controls{display:flex;gap:10px;flex-wrap:wrap}
+    button{
+      border:0;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer;background:linear-gradient(90deg,var(--accent), #3b82f6);color:#08203a;
+      box-shadow: 0 6px 18px rgba(59,130,246,0.18);
+    }
+    button.secondary{background:transparent;color:var(--accent);border:1px solid rgba(96,165,250,0.12);box-shadow:none}
+    small.hint{display:block;margin-top:12px;color:#9fb7ff88}
+    footer{margin-top:16px;font-size:13px;color:#94b6ff66}
+    /* Responsive tweak */
+    @media (max-width:420px){.card{padding:18px} h1{font-size:20px} .display{font-size:18px}}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <h1>Hello World — Single-file HTML, CSS & JavaScript</h1>
+    <p class="lead">This page demonstrates a minimal, single-file web page that contains HTML, CSS and JavaScript. Try the buttons below.</p>
+
+    <div id="display" class="display" aria-live="polite">Hello, world! 🌍</div>
+
+    <div class="controls" role="group" aria-label="example controls">
+      <button id="changeText">Change text</button>
+      <button id="showTime" class="secondary">Show current time</button>
+      <button id="surprise" class="secondary">Surprise (console)</button>
+      <button id="reset" class="secondary">Reset</button>
+    </div>
+    <small class="hint">Tip: open your browser console (F12 / DevTools) to see logs from the page.</small>
+    <footer>Accessible, responsive, and ready to save as <code>hello.html</code>.</footer>
+  </main>
+
+  <script>
+    // Simple, well-commented JavaScript included in the same file.
+    // Get references to elements
+    const display = document.getElementById('display');
+    const changeTextBtn = document.getElementById('changeText');
+    const showTimeBtn = document.getElementById('showTime');
+    const surpriseBtn = document.getElementById('surprise');
+    const resetBtn = document.getElementById('reset');
+
+    // Helper: format time
+    function formatTime(d){
+      return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    }
+
+    // Event handlers
+    changeTextBtn.addEventListener('click', ()=>{
+      display.textContent = 'Hello from JavaScript! ✨';
+      console.log('[hello] text changed at', new Date().toISOString());
+    });
+
+    showTimeBtn.addEventListener('click', ()=>{
+      const now = new Date();
+      display.textContent = `It is ${formatTime(now)}.`;
+      console.log('[hello] showed time', now.toString());
+    });
+
+    surpriseBtn.addEventListener('click', ()=>{
+      // a tiny playful surprise — accessible via console too
+      display.textContent = 'Surprise! Check your console for a friendly message.';
+      console.log('%cYou found the surprise message! 🎉\nKeep exploring — this is a single-file page combining HTML, CSS and JS.','font-weight:700;font-size:12px;color:#60a5fa;');
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      display.textContent = 'Hello, world! 🌍';
+      console.log('[hello] reset');
+    });
+
+    // Accessibility: allow pressing Enter on focused buttons to trigger them (native for buttons) and give keyboard focus style
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'h' || e.key === 'H'){
+        // quick keyboard shortcut to toggle message
+        changeTextBtn.click();
+      }
+    });
+
+    // Small progressive enhancement: show greeting based on time of day
+    (function greetByTime(){
+      const h = new Date().getHours();
+      if(h<12) display.textContent = 'Good morning — Hello, world! ☀️';
+      else if(h<18) display.textContent = 'Good afternoon — Hello, world! 🌤️';
+      else display.textContent = 'Good evening — Hello, world! 🌙';
+    })();
+  </script>
+</body>
+</html>
+
+
+
